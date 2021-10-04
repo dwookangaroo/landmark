@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>recommendation</title>
+    <script>
+        var landmark_lat = 0;
+        var landmark_lng = 0;
+        var hotel_lat = 0;
+        var hotel_lng = 0;
+
+    </script>
+</head>
+<body>
+
+    <div>
+    {% for i in landmark %}
+
+        <td>{{i.name}}</td>
+        <td>{{i.lat}}</td>
+        <td>{{i.lng}}</td>
+
+    {% endfor %}
+        {{landmark}}
+
+    </div>
+
+    <hr>
+
+    <div>
+    {% for i in hotel %}
+
+        <td>{{i.name}}</td>
+        <td>{{i.lat}}</td>
+        <td>{{i.lng}}</td>
+        <td>({{result}}까지의 거리){{distance}}</td>
+        <hr>
+
+    {% endfor %}
+        {{hotel}}
+        {{hh}}
+    </div>
+
+
+</body>
+</html>
