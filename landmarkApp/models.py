@@ -10,6 +10,7 @@ class Landmarks(models.Model):
 
 
 class Hotels(models.Model):
+    id = models.FloatField(primary_key=True)
     rank = models.CharField(max_length=255)
     name = models.CharField(max_length=255)
     address = models.CharField(max_length=255)
@@ -18,6 +19,7 @@ class Hotels(models.Model):
 
 
 class Restaurants(models.Model):
+    id = models.FloatField(primary_key=True)
     name = models.CharField(max_length=255)
     represent = models.CharField(max_length=255)
     address = models.CharField(max_length=255)

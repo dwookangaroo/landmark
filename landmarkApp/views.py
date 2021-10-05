@@ -5,6 +5,7 @@ import pymysql
 from django.shortcuts import render, redirect
 from .models import Landmarks, Hotels, Restaurants
 from haversine import haversine
+import numpy as np
 
 # def image_upload_view(request):
 #     """Process images uploaded by users"""
@@ -59,34 +60,72 @@ from haversine import haversine
 #     return HttpResponse(simplejson.dumps(awb_dict) )
 
 def hotel_recommendation(request):
+    pre_ans = '명동성당'
 
-    result = '명동성당'
+    if pre_ans == '경복궁':
+        result = 0
+    elif pre_ans == '명동성당':
+        result = 1
+    elif pre_ans == '이순신 동상':
+        result = 2
+    elif pre_ans == '63빌딩':
+        result = 3
+    elif pre_ans == '탑골공원팔각정':
+        result = 4
+    elif pre_ans == '독립문':
+        result = 5
+    elif pre_ans == '남산타워':
+        result = 6
+    elif pre_ans == '롯데타워':
+        result = 7
+    elif pre_ans == '코엑스':
+        result = 8
+    elif pre_ans == '서대문형무소':
+        result = 9
+    elif pre_ans == '구서울역':
+        result = 10
     # 랜드마크의 lat, lng
-    landmark_list = {}
-    landmark = Landmarks.objects.values('name')
 
-
+    landmark = Landmarks.objects.values('name', 'lat', 'lng')
+    landmark_lat = landmark[result]['lat']
+    landmark_lng = landmark[result]['lng']
+    landmark_latlng = landmark_lat, landmark_lng
 
     # 전체호텔 리스트
     hotel = Hotels.objects.values('name', 'lat', 'lng')
-    hotel[0]['lat']
+
+    distance = []
     for count, value in enumerate(hotel):
         hotel_lat = hotel[count]['lat']
         hotel_lng = hotel[count]['lng']
+        hotel_latlng = hotel_lat, hotel_lng
+        d = haversine(landmark_latlng, hotel_latlng, unit='km')
+        distance.append(d)
 
-    hotel_latlng = hotel_lat, hotel_lng
+    # 가까운 5개의 index
+    distance = np.array(distance)
+    n = 5
+    indices = (-distance).argsort()[-n:]
 
-    # 가까운 5개
+    con = mysql.connector.connect(user='root', password='', host='localhost', database='')
+    cur = con.cursor()
+    cur.execute("SELECT * FROM user_order")
+    records = cur.fetchall()
+    print(records)
+    con.commit()
+    cur.close()
+    con.close()
 
-    #distance = haversine(landmark_latlng, hotel_latlng, unit='km')
+    # 가까운 5개의 name
+
+    hotel_five =
 
     context = {
         'hotel': hotel,
         'landmark': landmark,
-        'result': result,
-        # 'hh' : hh
-        #'distance': distance
-
+        'pre_ans': pre_ans,
+        'distance': distance,
+        'indices': indices
     }
 
     return render(request, "hotel/show.html", context)

@@ -9,36 +9,23 @@
         var hotel_lat = 0;
         var hotel_lng = 0;
 
+
+
     </script>
 </head>
 <body>
 
     <div>
-    {% for i in landmark %}
+        {{pre_ans}}
 
-        <td>{{i.name}}</td>
-        <td>{{i.lat}}</td>
-        <td>{{i.lng}}</td>
 
-    {% endfor %}
-        {{landmark}}
 
     </div>
 
     <hr>
 
     <div>
-    {% for i in hotel %}
-
-        <td>{{i.name}}</td>
-        <td>{{i.lat}}</td>
-        <td>{{i.lng}}</td>
-        <td>({{result}}까지의 거리){{distance}}</td>
-        <hr>
-
-    {% endfor %}
-        {{hotel}}
-        {{hh}}
+        {{indices}}
     </div>
 
 
