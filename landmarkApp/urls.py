@@ -5,5 +5,6 @@ from . import views
 app_name = 'landmarkApp'
 
 urlpatterns = [
-    path('', views.hotel_recommendation, name='hotel')
+    path('hotel/', views.hotel_recommendation, name='hotel'),
+    path('restaurant/', views.restaurant_recommendation, name='restaurant')
 ]
